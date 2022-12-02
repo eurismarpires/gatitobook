@@ -8,17 +8,18 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [
+  declarations: [ //define quais componentes/pipes/diretivas pertencem ao módulo
     AppComponent,
   ],
-  imports: [
+  imports: [            //define quais módulos a aplicação precisa importar
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     CabecalhoModule,
     RodapeModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [], //os serviços que serão utilizados pelos componentes
+  bootstrap: [AppComponent], //módulo principal da aplicação
+  exports: [] //quais componetes ficaram visíveis para outros módulos
 })
 export class AppModule { }
