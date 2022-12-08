@@ -23,7 +23,7 @@ api.list = async (req, res) => {
     } else {
         res.status(404).json({ message: 'User not found'});
     }
-    
+
 }
 
 api.add = async (req, res) => {
@@ -44,15 +44,14 @@ api.addUpload = async (req, res) => {
         const image = await jimp.read(req.file.path);
 
         await image
-            .exifRotate()
             .cover(460, 460)
             .autocrop()
-            .write(req.file.path);  
-                
+            .write(req.file.path);
+
         const photo = req.body;
         photo.url = path.basename(req.file.path);
         await new PhotoDao(req.db).add(photo, req.user.id);
-        res.status(200).end();       
+        res.status(200).end();
 };
 
 api.findById = async (req, res) => {
@@ -64,7 +63,7 @@ api.findById = async (req, res) => {
         res.json(photo);
     } else {
         res.status(404).json({ message: 'Photo does not exist'})
-    }  
+    }
 };
 
 api.remove = async (req, res) => {
@@ -77,14 +76,14 @@ api.remove = async (req, res) => {
         console.log(message);
         return res.status(404).json({ message });
     }
-    
+
     if(userCanDelete(user)(photo)) {
         await dao.remove(photoId)
         console.log(`Photo ${photoId} deleted!`);
         res.status(200).end();
     } else {
         console.log(`
-            Forbiden operation. User ${user.id} 
+            Forbiden operation. User ${user.id}
             can delete photo from user ${photo.userId}
         `);
         res.status(403).json({ message: 'Forbidden'});
